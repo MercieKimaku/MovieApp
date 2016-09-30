@@ -7,7 +7,8 @@
 //
 
 #import "SearchViewController.h"
-#import "Film.h"
+#import "SearchDataService.h"
+#import "PreviewViewController.h"
 
 @interface SearchViewController ()
 
@@ -15,14 +16,35 @@
 
 @implementation SearchViewController
 
+-(NSMutableArray *) masterFilmList{
+    if (_masterFilmList == nil) {
+        _masterFilmList = [[NSMutableArray alloc] init];
+    }
+    return _masterFilmList;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     _searchBar.text =@"star wars";
+    _searchBar.backgroundColor = [UIColor redColor];
+    [_searchBar isFirstResponder];
+    
+
     
     [self fetchData: [@"s=" stringByAppendingString:_searchBar.text]];
 
+    //create a tapgesture to release keyboard on tap
+    UITapGestureRecognizer *tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyboard)];
+    [self.myTableView addGestureRecognizer:tap];
+    [tap setCancelsTouchesInView:NO];
+    [tap setDelaysTouchesEnded:NO];
+
+    
+}
+
+-(void)hideKeyboard{
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -40,13 +62,28 @@
 }
 */
 
+#pragma mark - search methods
+
+-(void) searchBarSearchButtonClicked: (UISearchBar *) mySearchBar{
+    
+    NSString * seachTerm = _searchBar.text;
+    
+    seachTerm = [seachTerm lowercaseString];
+    seachTerm = [seachTerm stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    [self fetchData: [@"s=" stringByAppendingString:seachTerm]];
+
+    [_searchBar resignFirstResponder];
+    
+}
+
 #pragma mark - request data source
 -(void)fetchData: (NSString *)parameters{
     
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        DataService  *service = [[DataService alloc] init];
-        self.masterFilmList = [service selectFromJson:parameters];
-        
+        SearchDataService  *service = [[SearchDataService alloc] init];
+        _masterFilmList = [service getSearchedFilmFromAPI:parameters];
+        //
         dispatch_async(dispatch_get_main_queue(), ^{
             
             
@@ -60,25 +97,10 @@
         });
         
     });
-    
+
 }
 
-- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, UIImage *image))completionBlock
-{
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-    
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-                               
-                               if ( !error ){
-                                   UIImage *image = [[UIImage alloc] initWithData:data];
-                                   completionBlock(YES,image);
-                               } else{
-                                   completionBlock(NO,nil);
-                               }
-                           }];
-}
+
 
 
 
@@ -92,11 +114,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
-    if ([self.masterFilmList count] == 0) {
-        return 1; // a single cell to report no data
-    }
-    return [self.masterFilmList count];
+//    // Return the number of rows in the section.
+//    if ([_masterFilmList count] == 0) {
+//        return 1; // a single cell to report no data
+//    }
+    return [_masterFilmList count];
 }
 
 - (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -128,6 +150,21 @@
     
     return cell;
     
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    NSInteger index = [self.myTableView indexPathForSelectedRow].row;
+    
+    if ([segue.identifier isEqualToString:@"previewFilm"]){
+        [(PreviewViewController *)segue.destinationViewController setFilm:
+         [self objectInListAtIndex:
+          index]];
+    }
+}
+
+
+-(Film *)objectInListAtIndex: (NSUInteger)index{
+    return [_masterFilmList objectAtIndex:index];
 }
 
 

@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "1A327769D266E4CCFABA5FF2993AD86969352D0B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1AF432E9E87EBB86908E7A07EBF26B0E6B00B6C3" : 0,
+    "1A327769D266E4CCFABA5FF2993AD86969352D0B" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D5BE88E8-0E8B-41E6-AC94-3964BF3889DA",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1AF432E9E87EBB86908E7A07EBF26B0E6B00B6C3" : "",
+    "1A327769D266E4CCFABA5FF2993AD86969352D0B" : "MovieApp\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "MovieApp",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "MovieApp.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sKarumba\/MovieApp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1A327769D266E4CCFABA5FF2993AD86969352D0B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/MercieKimaku\/SimpleCalculator.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1AF432E9E87EBB86908E7A07EBF26B0E6B00B6C3"
+    }
+  ]
+}
